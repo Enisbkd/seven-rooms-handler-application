@@ -81,6 +81,12 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern("/management/info")).permitAll()
                     .requestMatchers(mvc.pattern("/management/prometheus")).permitAll()
                     .requestMatchers(mvc.pattern("/management/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers(mvc.pattern("/api/searchClients")).permitAll()
+                    .requestMatchers(mvc.pattern("/api/searchReservations")).permitAll()
+                    .requestMatchers(mvc.pattern("/api/searchAllReservations")).permitAll()
+                    .requestMatchers(mvc.pattern("/api/searchAllClients")).permitAll()
+                    .requestMatchers(mvc.pattern("/api/searchVenues")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/webhooks")).permitAll()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(

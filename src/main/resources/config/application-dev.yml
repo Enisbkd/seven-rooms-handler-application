@@ -3,8 +3,6 @@
 #
 # This configuration overrides the application.yml file.
 #
-# More information on profiles: https://www.jhipster.tech/profiles/
-# More information on configuration properties: https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
 # ===================================================================
@@ -15,10 +13,10 @@
 
 logging:
   level:
-    ROOT: DEBUG
-    tech.jhipster: DEBUG
-    org.hibernate.SQL: DEBUG
-    com.sbm.sevenrooms.sevenroomshandler: DEBUG
+    ROOT: ${HANDLER_LOGGING_LEVEL_ROOT:INFO}
+    tech.jhipster: ${HANDLER_LOGGING_LEVEL_TECH_COMMON:INFO}
+    org.hibernate.SQL: ${HANDLER_LOGGING_LEVEL_HIBERNATE:INFO}
+    com.sbm.sevenrooms.sevenroomshandler: ${LOGGING_LEVEL_SEVENROOMS_HANDLER:INFO}
 
 spring:
   devtools:
@@ -43,36 +41,57 @@ spring:
   thymeleaf:
     cache: false
 
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    security.protocol: ${KAFKA_PROPERTIES_SECURITY_PROTOCOL}
+    sasl.mechanism: ${KAFKA_PROPERTIES_SASL_MECHANISM}
+    sasl.jaas.config: ${KAFKA_PROPERTIES_SASL_JAAS_CONFIG_HANDLER}
+    ssl.sslTruststoreLocation: ${KAFKA_PROPERTIES_TRUSTSTORE_LOCATION}
+    topics:
+      client-topic: ${CLIENT_TOPIC}
+      reservation-topic: ${RESERVATION_TOPIC}
+      venue-topic: ${VENUE_TOPIC}
+      handler-logs-topic: ${HANDLER_LOGS_TOPIC}
+      handler-deadletters-topic: ${HANDLER_DEADLETTERS_TOPIC}
+
 server:
-  port: 4040
+  port: ${HANDLER_SERVER_PORT}
+  ssl:
+    enabled: ${HANDLER_SERVER_SSL_ENABLED}
+    key-store-type: ${HANDLER_SERVER_CERTIFICATE_STORETYPE}
+    key-store: ${HANDLER_SERVER_CERTIFICATE_KEYSTORE_FILE}
+    key-store-password: ${HANDLER_SERVER_CERTIFICATE_PASSWORD}
 
-# ===================================================================
-# JHipster specific properties
-#
-# Full reference is available at: https://www.jhipster.tech/common-application-properties/
-# ===================================================================
+sevenroomsApi:
+  graviteeUrl: ${GRAVITEE_URL}
+  api-key: ${API_KEY}
+  clientId: ${CLIENT_ID}
+  clientSecret: ${CLIENT_SECRET}
+  venueGroupId: ${VENUE_GROUP_ID}
 
-jhipster:
+tibco:
+  url: ${TIBCO_URL}
+
+common:
   # CORS is only enabled by default with the "dev" profile
   cors:
-    # Allow Ionic for JHipster by default (* no longer allowed in Spring Boot 2.4+)
-    allowed-origins: 'http://localhost:8100,https://localhost:8100,http://localhost:9000,https://localhost:9000,http://localhost:9060,https://localhost:9060'
+    allowed-origins: ${CORS_ALLOWED_ORIGINS}
     # Enable CORS when running in GitHub Codespaces
     allowed-origin-patterns: 'https://*.githubpreview.dev'
     allowed-methods: '*'
     allowed-headers: '*'
-    exposed-headers: 'Authorization,Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params'
+    exposed-headers: 'Authorization,Link,X-Total-Count,X-${common.clientApp.name}-alert,X-${common.clientApp.name}-error,X-${common.clientApp.name}-params'
     allow-credentials: true
     max-age: 1800
   security:
     authentication:
       jwt:
         # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
-        base64-secret: NGNjNWRhNmE5ZTExNjczOWQwZTY0ZDdkNDZmOGMzODFmMDc1ZWM3MmNlNWFhZDIxMzI3ZTNhYjEzODQxOGJlNGViMGY2MzM0ODk4MjI0ZTM2OGYxYjI4MzYzMTBkZTVhMmZlM2JiNzFmNTkyMmNlMGMxNTA0NDFiNWNmZTkxZDk=
+        base64-secret: ODJjZTZiY2EzZTkyNTJmMTc1ZTI0ZjY1YzViNDcwNzRjMGMyYmQzNmM2MzczZTFkMWNhZTU3N2YxNWQ5ZWEwNjdlOTk2ZmU2MTgyOTI1YTk0OGE5MTZiNjk3YjkxOGNkOWIzYzhkZTU5ZjlkNzEwNjk1ZDU2ZmJkZjQxNzkzNGY=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000
-  mail: # specific JHipster mail property, for standard properties see MailProperties
+  mail:
     base-url: http://127.0.0.1:4040
   logging:
     use-json-format: false # By default, logs are not in Json format
@@ -81,13 +100,4 @@ jhipster:
       host: localhost
       port: 5000
       ring-buffer-size: 512
-# ===================================================================
-# Application specific properties
-# Add your own application properties here, see the ApplicationProperties class
-# to have type-safe configuration, like in the JHipsterProperties above
-#
-# More documentation is available at:
-# https://www.jhipster.tech/common-application-properties/
-# ===================================================================
-
 # application:

@@ -19,6 +19,7 @@ public class SpaWebFilter extends OncePerRequestFilter {
         String path = request.getRequestURI().substring(request.getContextPath().length());
         if (
             !path.startsWith("/api") &&
+            !path.startsWith("/webhooks") &&
             !path.startsWith("/management") &&
             !path.startsWith("/v3/api-docs") &&
             !path.contains(".") &&

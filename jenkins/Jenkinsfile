@@ -1,0 +1,63 @@
+pipeline{
+	agent any
+
+    environment {
+
+			SBM_PROJECT_DIR="$WORKSPACE/projects" // unused
+			npm_config_registry="https://proxycache.sbm.admin/repository/proxy_npm_npmjsorg"
+			NODE_EXTRA_CA_CERTS="/var/lib/jenkins/.ca-trust-sbm/ca-sbm-admin.pem"
+			TRUSTSTORE_PASSWORD="changeit"
+
+    }
+	stages{
+		stage('prepare files'){
+			steps{
+				script{
+                    sh(" cp -f $WORKSPACE/jenkins/build.gradle $WORKSPACE/build.gradle")
+                    sh(" cp -f $WORKSPACE/jenkins/gradle-wrapper.properties $WORKSPACE/gradle/wrapper/gradle-wrapper.properties")
+                    sh(" cp -f $WORKSPACE/jenkins/gradle.properties $WORKSPACE/gradle.properties")
+                    sh(" cp -f $WORKSPACE/jenkins/settings.gradle $WORKSPACE/settings.gradle")
+                    sh(" cp -f $WORKSPACE/jenkins/docker.gradle $WORKSPACE/gradle/docker.gradle")
+					sh(" find tmp")
+					sh(" mkdir -p tmp")
+  				}
+			}
+        }
+
+		stage('ls'){
+			steps{
+				script{
+
+                    sh( "ls -la $WORKSPACE/")
+                    sh( "cat  $WORKSPACE/build.gradle")
+                    sh( "cat  $WORKSPACE/gradle/wrapper/gradle-wrapper.properties")
+                    sh( "cat  $WORKSPACE/gradle.properties")
+                    sh( "cat  $WORKSPACE/settings.gradle")
+					sh(" mkdir -p tmp/v18.18.2")
+					sh( "curl https://repo01.sbm.admin/files/src/projet/dev/node-v18.18.2-linux-x64.tar.gz -o $WORKSPACE/tmp/v18.18.2/node-v18.18.2-linux-x64.tar.gz")
+
+  				}
+			}
+        }
+
+		stage('create image '){
+			steps{
+				script{
+					// sh("dotnet nuget add source projects/applicationserver/Nuget")
+					//sh(" cd $WORKSPACE/ &&  ./gradlew  jibDockerBuild")
+					sh(" cd $WORKSPACE/ &&  ./gradlew -Pdev jib")
+  				}
+			}
+        }
+
+		stage('deploy'){
+			steps{
+				script{
+                    sh( "ssh continuousinfra@10.134.0.65 /opt/senvenroomshandler/script-handler.bash")
+  				}
+			}
+        }
+
+	}
+
+}

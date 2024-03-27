@@ -1,10 +1,8 @@
-
- ${AnsiColor.GREEN}      ██╗${AnsiColor.BLUE} ██╗   ██╗ ████████╗ ███████╗   ██████╗ ████████╗ ████████╗ ████${AnsiColor.GREEN}███╗
- ${AnsiColor.GREEN}      ██║ ██║ ${AnsiColor.BLUE}  ██║ ╚══██╔══╝ ██╔═══██╗ ██╔════╝ ╚══██╔══╝ ██╔══${AnsiColor.GREEN}═══╝ ██╔═══██╗
- ${AnsiColor.GREEN}      ██║ ████████║${AnsiColor.BLUE}    ██║    ███████╔╝ ╚█████╗     ██║   ${AnsiColor.GREEN} ██████╗   ███████╔╝
- ${AnsiColor.GREEN}██╗   ██║ ██╔═══██║    ██║   ${AnsiColor.BLUE} ██╔════╝   ╚═══██╗    ${AnsiColor.GREEN}██║    ██╔═══╝   ██╔══██║
- ${AnsiColor.GREEN}╚██████╔╝ ██║   ██║ ████████╗ ██║ ${AnsiColor.BLUE}      ██████${AnsiColor.GREEN}╔╝    ██║    ████████╗ ██║  ╚██╗
- ${AnsiColor.GREEN} ╚═════╝  ╚═╝   ╚═╝ ╚═══════╝ ╚═╝      ${AnsiColor.BLUE} ╚═${AnsiColor.GREEN}════╝     ╚═╝    ╚═══════╝ ╚═╝   ╚═╝
-
-${AnsiColor.BRIGHT_BLUE}:: JHipster 🤓  :: Running Spring Boot ${spring-boot.version} :: Startup profile(s) ${spring.profiles.active} ::
-:: https://www.jhipster.tech ::${AnsiColor.DEFAULT}
+  ____                       ____                           _   _                 _ _           
+ / ___|  _____   _____ _ __ |  _ \ ___   ___  _ __ ___  ___| | | | __ _ _ __   __| | | ___ _ __ 
+ \___ \ / _ \ \ / / _ \ '_ \| |_) / _ \ / _ \| '_ ` _ \/ __| |_| |/ _` | '_ \ / _` | |/ _ \ '__|
+  ___) |  __/\ V /  __/ | | |  _ < (_) | (_) | | | | | \__ \  _  | (_| | | | | (_| | |  __/ |   
+ |____/ \___| \_/ \___|_| |_|_| \_\___/ \___/|_| |_| |_|___/_| |_|\__,_|_| |_|\__,_|_|\___|_|   
+                                                                                                
+${application.title} ${application.version}
+Powered by Spring Boot ${spring-boot.version}

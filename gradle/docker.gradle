@@ -1,0 +1,18 @@
+// Get truststore password from env (Stored in  Jenkinsfile)
+def trustStorePassword = System.getenv("TRUSTSTORE_PASSWORD")
+jib {
+//    from {
+//        image = "dockerpub01.sbm.admin/gcr.io/distroless/java:11"
+//    }
+    to {
+        image = "sevenroomshandler:$version"
+    }
+    container {
+        ports = ["4040"]
+        environment = [SPRING_OUTPUT_ANSI_ENABLED: "ALWAYS",TZ: "Europe/Paris"]
+        jvmFlags = ['-Djavax.net.ssl.trustStorePassword='+trustStorePassword]
+        creationTime = "USE_CURRENT_TIMESTAMP"
+        user = 1000
+    }
+}
+

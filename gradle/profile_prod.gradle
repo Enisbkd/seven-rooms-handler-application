@@ -12,7 +12,7 @@ springBoot {
 }
 
 bootRun {
-    args = ["--spring.profiles.active=${springProfiles}"]
+    args = ["--project.version=${version}","--spring.profiles.active=${springProfiles}"]
 }
 
 task webapp(type: NpmTask) {

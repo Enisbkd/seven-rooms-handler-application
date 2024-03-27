@@ -147,10 +147,12 @@ configurations {
 }
 
 repositories {
-    // Local maven repository is required for libraries built locally with maven like development jhipster-bom.
-    // mavenLocal()
-    mavenCentral()
-    // jhipster-needle-gradle-repositories - JHipster will add additional repositories
+    maven {
+        url "https://proxycache.sbm.admin/repository/proxy_maven_proxycentral/"
+    }
+    maven {
+        url "https://proxycache.sbm.admin/repository/gradle-plugins/"
+    }
 }
 
 dependencies {
@@ -206,7 +208,6 @@ dependencies {
     implementation "io.dropwizard.metrics:metrics-core"
     implementation 'org.springframework.kafka:spring-kafka'
     implementation 'co.elastic.logging:logback-ecs-encoder:1.5.0'
-    implementation 'org.springframework.boot:spring-boot-starter-webflux:3.2.3'
 
 }
 
@@ -241,17 +242,14 @@ task webapp_test(type: NpmTask) {
     inputs.dir("src/main/webapp/")
         .withPropertyName("webapp-source-dir")
         .withPathSensitivity(PathSensitivity.RELATIVE)
-
-    inputs.files("tsconfig.json", "tsconfig.app.json")
+    inputs.files("tsconfig.json")
         .withPropertyName("tsconfig")
         .withPathSensitivity(PathSensitivity.RELATIVE)
 
-    inputs.files("vite.config.ts")
-        .withPropertyName("vite")
-        .withPathSensitivity(PathSensitivity.RELATIVE)
-
-    inputs.files(".postcssrc")
-        .withPropertyName("postcssrc")
+    def webpackDevFiles = fileTree("webpack/")
+    webpackDevFiles.exclude("webpack.prod.js")
+    inputs.files(webpackDevFiles)
+        .withPropertyName("webpack-dir")
         .withPathSensitivity(PathSensitivity.RELATIVE)
 
     outputs.dir("build/test-results/jest/")
@@ -267,8 +265,9 @@ task webapp_test(type: NpmTask) {
 
 if (project.hasProperty("nodeInstall")) {
     node {
-        version = "20.11.0"
+        version = "18.18.2"
         npmVersion = "10.2.4"
+        distBaseUrl = "tmp"
         download = true
     }
 
